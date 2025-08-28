@@ -14,13 +14,247 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      documents: {
+        Row: {
+          ai_generated_content: Json | null
+          content: Json | null
+          created_at: string
+          document_type: string
+          id: string
+          status: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_generated_content?: Json | null
+          content?: Json | null
+          created_at?: string
+          document_type: string
+          id?: string
+          status?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_generated_content?: Json | null
+          content?: Json | null
+          created_at?: string
+          document_type?: string
+          id?: string
+          status?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          position: string | null
+          school_name: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          position?: string | null
+          school_name?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          position?: string | null
+          school_name?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      school_info: {
+        Row: {
+          category: string | null
+          content: string
+          created_at: string
+          embedding: string | null
+          id: string
+          tags: string[] | null
+        }
+        Insert: {
+          category?: string | null
+          content: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          tags?: string[] | null
+        }
+        Update: {
+          category?: string | null
+          content?: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          tags?: string[] | null
+        }
+        Relationships: []
+      }
+      students: {
+        Row: {
+          ai_generated_behavior: string | null
+          ai_generated_evaluation: string | null
+          behavior_record: string | null
+          class_name: string | null
+          created_at: string
+          id: string
+          name: string
+          processing_status: string | null
+          student_number: string | null
+          subject_evaluation: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_generated_behavior?: string | null
+          ai_generated_evaluation?: string | null
+          behavior_record?: string | null
+          class_name?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          processing_status?: string | null
+          student_number?: string | null
+          subject_evaluation?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_generated_behavior?: string | null
+          ai_generated_evaluation?: string | null
+          behavior_record?: string | null
+          class_name?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          processing_status?: string | null
+          student_number?: string | null
+          subject_evaluation?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      binary_quantize: {
+        Args: { "": string } | { "": unknown }
+        Returns: unknown
+      }
+      halfvec_avg: {
+        Args: { "": number[] }
+        Returns: unknown
+      }
+      halfvec_out: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      halfvec_send: {
+        Args: { "": unknown }
+        Returns: string
+      }
+      halfvec_typmod_in: {
+        Args: { "": unknown[] }
+        Returns: number
+      }
+      hnsw_bit_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      hnsw_halfvec_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      hnsw_sparsevec_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      hnswhandler: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      ivfflat_bit_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      ivfflat_halfvec_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      ivfflathandler: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      l2_norm: {
+        Args: { "": unknown } | { "": unknown }
+        Returns: number
+      }
+      l2_normalize: {
+        Args: { "": string } | { "": unknown } | { "": unknown }
+        Returns: unknown
+      }
+      sparsevec_out: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      sparsevec_send: {
+        Args: { "": unknown }
+        Returns: string
+      }
+      sparsevec_typmod_in: {
+        Args: { "": unknown[] }
+        Returns: number
+      }
+      vector_avg: {
+        Args: { "": number[] }
+        Returns: string
+      }
+      vector_dims: {
+        Args: { "": string } | { "": unknown }
+        Returns: number
+      }
+      vector_norm: {
+        Args: { "": string }
+        Returns: number
+      }
+      vector_out: {
+        Args: { "": string }
+        Returns: unknown
+      }
+      vector_send: {
+        Args: { "": string }
+        Returns: string
+      }
+      vector_typmod_in: {
+        Args: { "": unknown[] }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never
