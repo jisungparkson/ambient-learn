@@ -1,1 +1,10 @@
 project_id = "tnojbrbsprjfvfliosyl"
+
+[functions.generate-document]
+verify_jwt = true
+
+[functions.process-students]
+verify_jwt = true
+
+[functions.rag-search]
+verify_jwt = true

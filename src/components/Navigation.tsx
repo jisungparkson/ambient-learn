@@ -33,6 +33,7 @@ const Navigation = () => {
             <Button 
               variant="secondary" 
               className="bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20"
+              onClick={() => window.location.href = '/auth'}
             >
               <User className="h-4 w-4 mr-2" />
               로그인
@@ -67,6 +68,7 @@ const Navigation = () => {
             <Button 
               variant="secondary" 
               className="w-full justify-start bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20"
+              onClick={() => window.location.href = '/auth'}
             >
               <User className="h-4 w-4 mr-2" />
               로그인

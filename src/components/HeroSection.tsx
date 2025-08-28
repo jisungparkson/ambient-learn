@@ -37,6 +37,7 @@ const HeroSection = () => {
             <Button 
               size="lg" 
               className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-education font-korean text-lg px-8"
+              onClick={() => window.location.href = '/auth'}
             >
               지금 시작하기
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -45,6 +46,7 @@ const HeroSection = () => {
               size="lg" 
               variant="outline" 
               className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 font-korean text-lg px-8"
+              onClick={() => window.location.href = '/auth'}
             >
               데모 체험하기
             </Button>
