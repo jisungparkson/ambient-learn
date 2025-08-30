@@ -2,51 +2,30 @@ import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import FeatureCard from "@/components/FeatureCard";
 import { 
-  BarChart3, 
-  BrainCircuit, 
-  Users, 
-  FileText, 
-  Zap, 
-  Shield 
+  FileEdit, 
+  BookOpen, 
+  Search 
 } from "lucide-react";
 
 const Index = () => {
   const features = [
     {
-      title: "실시간 분위기 분석",
-      description: "AI가 교실의 분위기를 실시간으로 측정하고 분석합니다",
-      icon: BarChart3,
+      title: "AI 기안문 작성 도우미",
+      description: "K-에듀파인 기안문, 가정통신문, 공문 초안을 AI가 순식간에 완성해 드립니다. 복잡한 공문 양식도 간단한 입력만으로 전문적인 문서가 완성됩니다.",
+      icon: FileEdit,
       gradient: "bg-gradient-to-br from-blue-50 to-indigo-50"
     },
     {
-      title: "AI 기반 인사이트",
-      description: "머신러닝으로 학습 패턴을 분석하고 개선점을 제안합니다",
-      icon: BrainCircuit,
-      gradient: "bg-gradient-to-br from-purple-50 to-pink-50"
-    },
-    {
-      title: "학생 참여도 측정",
-      description: "개별 학생의 참여도와 이해도를 정확하게 파악합니다",
-      icon: Users,
+      title: "AI 생기부 기록 도우미",
+      description: "학생 관찰 기록(엑셀)만 업로드하면, 개별 특성에 맞는 생기부 문구를 AI가 자동으로 생성합니다. 각 학생의 성향과 특징을 반영한 맞춤형 기록이 가능합니다.",
+      icon: BookOpen,
       gradient: "bg-gradient-to-br from-green-50 to-emerald-50"
     },
     {
-      title: "상세 리포트 생성",
-      description: "분석 결과를 바탕으로 맞춤형 리포트를 자동 생성합니다",
-      icon: FileText,
-      gradient: "bg-gradient-to-br from-orange-50 to-red-50"
-    },
-    {
-      title: "즉시 피드백",
-      description: "실시간으로 교수법 개선 방안을 제시합니다",
-      icon: Zap,
-      gradient: "bg-gradient-to-br from-yellow-50 to-orange-50"
-    },
-    {
-      title: "안전한 데이터 관리",
-      description: "학생 데이터를 안전하게 보호하고 개인정보를 보장합니다",
-      icon: Shield,
-      gradient: "bg-gradient-to-br from-teal-50 to-cyan-50"
+      title: "학교정보 AI 검색",
+      description: "복잡한 공문이나 규정 속에서 필요한 정보를 AI 검색으로 1초 만에 찾아보세요. 교육부 지침, 학교 규정, 업무 매뉴얼까지 모든 정보를 즉시 확인할 수 있습니다.",
+      icon: Search,
+      gradient: "bg-gradient-to-br from-purple-50 to-pink-50"
     }
   ];
 
@@ -63,7 +42,7 @@ const Index = () => {
               주요 기능
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-korean">
-              교실의 온도가 제공하는 혁신적인 교육 분석 도구들을 만나보세요
+              선생님의 업무를 효율적으로 도와주는 AI 기반 교육 도구를 경험해보세요
             </p>
           </div>
           
@@ -86,14 +65,14 @@ const Index = () => {
       <section className="py-20 bg-muted">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 font-korean">
-            지금 바로 시작해보세요
+            지금 바로 무료로 시작하세요
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-korean">
-            더 나은 교육 환경을 만들기 위한 첫걸음을 내딛어보세요
+            선생님의 소중한 시간을 절약하고, 더 의미 있는 교육에 집중할 수 있도록 도와드립니다
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="bg-gradient-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity shadow-education font-korean">
-              무료 체험 시작
+              무료로 시작하기
             </button>
             <button className="border border-border text-foreground px-8 py-3 rounded-lg font-semibold hover:bg-muted transition-colors font-korean">
               자세히 알아보기
@@ -108,7 +87,7 @@ const Index = () => {
           <div className="text-center">
             <h3 className="text-2xl font-bold mb-4 font-korean">교실의 온도</h3>
             <p className="text-primary-foreground/80 mb-6 font-korean">
-              AI로 더 나은 교육 환경을 만들어갑니다
+              AI로 선생님의 업무 효율성을 높이고, 교육의 질을 향상시킵니다
             </p>
             <div className="text-sm text-primary-foreground/60 font-korean">
               © 2024 교실의 온도. All rights reserved.
