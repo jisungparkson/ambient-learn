@@ -14,6 +14,7 @@ import {
   LogOut,
   Thermometer
 } from 'lucide-react';
+import GiamunGenerator from '@/components/GiamunGenerator';
 
 const DashboardPage = () => {
   const { user } = useAuth();
@@ -136,20 +137,7 @@ const DashboardPage = () => {
           </TabsContent>
 
           <TabsContent value="documents">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
-                  기안문 작성 도우미
-                </CardTitle>
-                <CardDescription>
-                  K-에듀파인 서식에 맞는 기안문을 AI가 자동 작성합니다
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">기안문 작성 기능을 곧 제공할 예정입니다.</p>
-              </CardContent>
-            </Card>
+            <GiamunGenerator />
           </TabsContent>
 
           <TabsContent value="records">

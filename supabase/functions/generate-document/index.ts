@@ -41,31 +41,54 @@ serve(async (req) => {
       throw new Error('User not authenticated');
     }
 
-    // Generate document using OpenAI
-    const prompt = `
-당신은 K-에듀파인 기안문 작성 전문가입니다. 다음 조건에 맞는 기안문을 작성해주세요:
+    // Enhanced prompt generation for K-EDUFINE documents
+    const createGiamunPrompt = (documentType: string, title: string, content: string) => {
+      const EXAMPLES_DATA = {
+        "공문": {
+          example: "수업료 감면 신청에 관한 건",
+          structure: "제목, 담당부서, 기안자, 기안일자, 목적, 배경, 내용, 일정, 기대효과"
+        },
+        "가정통신문": {
+          example: "학부모 상담주간 운영 안내",
+          structure: "제목, 발송일자, 대상, 목적, 내용, 협조사항, 문의처"
+        },
+        "기안문": {
+          example: "교육활동 예산 편성에 관한 기안",
+          structure: "제목, 담당부서, 기안자, 기안일자, 목적, 배경, 내용, 예산내역, 일정, 기대효과"
+        }
+      };
+
+      const docInfo = EXAMPLES_DATA[documentType as keyof typeof EXAMPLES_DATA] || EXAMPLES_DATA["기안문"];
+      
+      return `당신은 K-에듀파인 기안문 작성 전문가입니다. 다음 조건에 맞는 ${documentType}을 작성해주세요:
 
 문서 유형: ${documentType}
 제목: ${title}
-내용: ${content}
+상세 내용: ${content}
 
-K-에듀파인 표준 서식에 맞게 JSON 형태로 응답해주세요:
+참고 예시: ${docInfo.example}
+구조: ${docInfo.structure}
+
+다음 JSON 형식으로 정확히 응답해주세요:
 {
-  "title": "기안문 제목",
+  "title": "문서 제목",
   "department": "담당 부서",
   "drafter": "기안자",
-  "date": "기안일자",
+  "date": "기안일자 (YYYY-MM-DD 형식)",
   "purpose": "기안 목적",
   "background": "추진 배경",
-  "content": "주요 내용",
-  "budget": "예산 내역 (해당시)",
+  "content": "주요 내용 (상세하고 구체적으로)",
+  "budget": "예산 내역 (해당 시에만, 없으면 '해당 없음')",
   "schedule": "추진 일정",
   "expected_effect": "기대 효과",
-  "appendix": "첨부 자료 목록"
+  "appendix": "첨부 자료 목록 (필요 시)",
+  "contact": "담당자 연락처 정보"
 }
 
-모든 내용은 한국어로 작성하고, 교육기관에 적합한 공식적인 문체를 사용해주세요.
-    `;
+모든 내용은 한국어로 작성하고, 교육기관에 적합한 공식적인 문체를 사용해주세요. JSON 형식을 정확히 지켜주세요.`;
+    };
+
+    const prompt = createGiamunPrompt(documentType, title, content);
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -76,11 +99,15 @@ K-에듀파인 표준 서식에 맞게 JSON 형태로 응답해주세요:
       body: JSON.stringify({
         model: 'gpt-4o-mini',
         messages: [
-          { role: 'system', content: 'You are a professional Korean educational document writer specializing in K-EDUFINE format.' },
+          { 
+            role: 'system', 
+            content: 'You are a professional Korean educational document writer specializing in K-EDUFINE format. Always respond with valid JSON format.' 
+          },
           { role: 'user', content: prompt }
         ],
-        temperature: 0.7,
-        max_tokens: 2000,
+        response_format: { type: "json_object" },
+        temperature: 0.3,
+        max_tokens: 2500,
       }),
     });
 
