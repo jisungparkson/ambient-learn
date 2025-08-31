@@ -10,7 +10,7 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href = '/'}>
             <div className="bg-primary-foreground/20 p-2 rounded-lg">
               <BookOpen className="h-6 w-6 text-primary-foreground" />
             </div>
