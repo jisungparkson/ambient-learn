@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(supabase:*)",
+      "Bash(npm install:*)",
+      "Bash(winget install:*)",
+      "Bash(npx supabase:*)",
+      "Bash(docker:*)",
+      "Bash(npx tsc:*)",
+      "Bash(deno:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
