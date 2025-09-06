@@ -1,1 +1,1 @@
-🚀 Edge Function 디버깅 로그 추가 및 추가 안정성 강화
+🔧 개발환경에서 로컬 Supabase 연결 설정 추가

@@ -1,18 +1,24 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/components/ui/use-toast';
-import { Thermometer, Mail } from 'lucide-react';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
+import { Thermometer, Mail } from "lucide-react";
 
 const AuthPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -29,8 +35,8 @@ const AuthPage = () => {
           emailRedirectTo: `${window.location.origin}/`,
           data: {
             full_name: fullName,
-          }
-        }
+          },
+        },
       });
 
       if (error) throw error;
@@ -55,6 +61,10 @@ const AuthPage = () => {
     setLoading(true);
 
     try {
+      // Supabase 연결 테스트
+      console.log("Supabase URL:", supabase.supabaseUrl);
+      console.log("로그인 시도:", email);
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -67,12 +77,25 @@ const AuthPage = () => {
           title: "로그인 성공",
           description: "환영합니다!",
         });
-        navigate('/dashboard');
+        navigate("/dashboard");
       }
     } catch (error: any) {
+      console.error("로그인 오류:", error);
+      let errorMessage = error.message;
+
+      // 더 친화적인 오류 메시지 제공
+      if (error.message.includes("Invalid login credentials")) {
+        errorMessage = "이메일 또는 비밀번호가 올바르지 않습니다.";
+      } else if (error.message.includes("Email not confirmed")) {
+        errorMessage = "이메일 인증이 필요합니다. 이메일을 확인해주세요.";
+      } else if (error.message.includes("Too many requests")) {
+        errorMessage =
+          "너무 많은 로그인 시도가 있었습니다. 잠시 후 다시 시도해주세요.";
+      }
+
       toast({
         title: "로그인 실패",
-        description: error.message,
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -83,10 +106,10 @@ const AuthPage = () => {
   const handleGoogleSignIn = async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
+        provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
-        }
+          redirectTo: `${window.location.origin}/dashboard`,
+        },
       });
 
       if (error) throw error;
@@ -117,7 +140,7 @@ const AuthPage = () => {
               <TabsTrigger value="signin">로그인</TabsTrigger>
               <TabsTrigger value="signup">회원가입</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="signin">
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
@@ -140,16 +163,16 @@ const AuthPage = () => {
                     required
                   />
                 </div>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-gradient-primary" 
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-primary"
                   disabled={loading}
                 >
                   {loading ? "로그인 중..." : "로그인"}
                 </Button>
               </form>
             </TabsContent>
-            
+
             <TabsContent value="signup">
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
@@ -182,9 +205,9 @@ const AuthPage = () => {
                     required
                   />
                 </div>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-gradient-primary" 
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-primary"
                   disabled={loading}
                 >
                   {loading ? "가입 중..." : "회원가입"}
@@ -202,7 +225,7 @@ const AuthPage = () => {
                 <span className="bg-card px-2 text-muted-foreground">또는</span>
               </div>
             </div>
-            
+
             <Button
               variant="outline"
               className="w-full mt-4 border-2 hover:bg-gray-50 transition-colors duration-200"

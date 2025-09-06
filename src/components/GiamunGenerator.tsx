@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { useToast } from '@/components/ui/use-toast';
-import { supabase } from '@/integrations/supabase/client';
-import { Copy, FileText, Loader2, Settings, Download } from 'lucide-react';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { Copy, FileText, Loader2, Settings, Download } from "lucide-react";
 
 interface GiamunData {
   title: string;
@@ -35,33 +52,33 @@ interface GiamunFormData {
 
 const GiamunGenerator: React.FC = () => {
   const [formData, setFormData] = useState<GiamunFormData>({
-    documentType: '',
-    title: '',
-    details: '',
-    department: '',
-    drafter: ''
+    documentType: "",
+    title: "",
+    details: "",
+    department: "",
+    drafter: "",
   });
-  
+
   const [giamunResult, setGiamunResult] = useState<GiamunData | null>(null);
-  const [renderedText, setRenderedText] = useState<string>('');
+  const [renderedText, setRenderedText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
-  
+  const [error, setError] = useState<string>("");
+
   const { toast } = useToast();
 
   const documentTypes = [
-    { value: '기안문', label: '기안문' },
-    { value: '공문', label: '공문' },
-    { value: '가정통신문', label: '가정통신문' },
-    { value: '보고서', label: '보고서' },
-    { value: '계획서', label: '계획서' }
+    { value: "기안문", label: "기안문" },
+    { value: "공문", label: "공문" },
+    { value: "가정통신문", label: "가정통신문" },
+    { value: "보고서", label: "보고서" },
+    { value: "계획서", label: "계획서" },
   ];
 
   const renderGiamunFromJson = (data: GiamunData): string => {
-    const today = new Date().toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    const today = new Date().toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
 
     return `
@@ -86,22 +103,34 @@ ${data.background}
 【 주요 내용 】
 ${data.content}
 
-${data.budget && data.budget !== '해당 없음' ? `【 예산 내역 】
+${
+  data.budget && data.budget !== "해당 없음"
+    ? `【 예산 내역 】
 ${data.budget}
 
-` : ''}【 추진 일정 】
+`
+    : ""
+}【 추진 일정 】
 ${data.schedule}
 
 【 기대 효과 】
 ${data.expected_effect}
 
-${data.appendix ? `【 첨부 자료 】
+${
+  data.appendix
+    ? `【 첨부 자료 】
 ${data.appendix}
 
-` : ''}${data.contact ? `【 담당자 연락처 】
+`
+    : ""
+}${
+      data.contact
+        ? `【 담당자 연락처 】
 ${data.contact}
 
-` : ''}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+`
+        : ""
+    }━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ※ 본 기안문은 K-에듀파인 시스템 규정에 따라 작성되었습니다.
 ※ 추가 문의사항은 담당 부서로 연락 바랍니다.
@@ -111,9 +140,9 @@ ${data.contact}
   };
 
   const handleInputChange = (field: keyof GiamunFormData, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -134,15 +163,38 @@ ${data.contact}
     }
 
     setIsLoading(true);
-    setError('');
+    setError("");
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
       if (!session) {
-        throw new Error('로그인이 필요합니다.');
+        throw new Error("로그인이 필요합니다.");
       }
 
+      // 임시로 로컬에서 테스트용 데이터 생성
+      const mockData = {
+        success: true,
+        generated_content: {
+          title: formData.title,
+          department: formData.department || "교무부",
+          drafter: formData.drafter || "관리자",
+          date: new Date().toISOString().split("T")[0],
+          purpose: `${formData.documentType} 작성`,
+          background: formData.details,
+          content: formData.details,
+          budget: "해당 없음",
+          schedule: "즉시 시행",
+          expected_effect: "업무 효율성 향상",
+          appendix: "",
+          contact: "교무부 (02-1234-5678)",
+        },
+      };
+
+      // 실제 Edge Function 호출 (주석 처리)
+      /*
       const { data, error } = await supabase.functions.invoke('generate-document', {
         body: {
           documentType: formData.documentType,
@@ -153,18 +205,22 @@ ${data.contact}
           Authorization: `Bearer ${session.access_token}`,
         },
       });
+      */
+
+      const data = mockData;
+      const error = null;
 
       if (error) {
         throw new Error(error.message);
       }
 
       if (!data.success) {
-        throw new Error(data.error || '문서 생성에 실패했습니다.');
+        throw new Error(data.error || "문서 생성에 실패했습니다.");
       }
 
       const generatedData = data.generated_content;
       setGiamunResult(generatedData);
-      
+
       // Client-side rendering of the final text
       const finalText = renderGiamunFromJson(generatedData);
       setRenderedText(finalText);
@@ -173,7 +229,6 @@ ${data.contact}
         title: "생성 완료",
         description: "기안문이 성공적으로 생성되었습니다.",
       });
-
     } catch (err: any) {
       setError(err.message);
       toast({
@@ -204,7 +259,9 @@ ${data.contact}
     }
   };
 
-  const stats = renderedText ? calculateStats(renderedText) : { charCount: 0, byteCount: 0 };
+  const stats = renderedText
+    ? calculateStats(renderedText)
+    : { charCount: 0, byteCount: 0 };
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -224,7 +281,12 @@ ${data.contact}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="documentType">문서 유형 *</Label>
-              <Select value={formData.documentType} onValueChange={(value) => handleInputChange('documentType', value)}>
+              <Select
+                value={formData.documentType}
+                onValueChange={(value) =>
+                  handleInputChange("documentType", value)
+                }
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="문서 유형을 선택하세요" />
                 </SelectTrigger>
@@ -244,7 +306,7 @@ ${data.contact}
                 id="title"
                 placeholder="기안문 제목을 입력하세요"
                 value={formData.title}
-                onChange={(e) => handleInputChange('title', e.target.value)}
+                onChange={(e) => handleInputChange("title", e.target.value)}
               />
             </div>
           </div>
@@ -255,7 +317,7 @@ ${data.contact}
               id="details"
               placeholder="기안하고자 하는 내용을 상세히 입력하세요"
               value={formData.details}
-              onChange={(e) => handleInputChange('details', e.target.value)}
+              onChange={(e) => handleInputChange("details", e.target.value)}
               rows={4}
             />
           </div>
@@ -277,7 +339,9 @@ ${data.contact}
                       id="department"
                       placeholder="예: 교무부, 행정실 등"
                       value={formData.department}
-                      onChange={(e) => handleInputChange('department', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("department", e.target.value)
+                      }
                     />
                   </div>
 
@@ -287,7 +351,9 @@ ${data.contact}
                       id="drafter"
                       placeholder="기안자 성명"
                       value={formData.drafter}
-                      onChange={(e) => handleInputChange('drafter', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("drafter", e.target.value)
+                      }
                     />
                   </div>
                 </div>
@@ -295,9 +361,9 @@ ${data.contact}
             </AccordionItem>
           </Accordion>
 
-          <Button 
-            onClick={handleGenerate} 
-            className="w-full bg-gradient-primary hover:opacity-90" 
+          <Button
+            onClick={handleGenerate}
+            className="w-full bg-gradient-primary hover:opacity-90"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -306,7 +372,7 @@ ${data.contact}
                 기안문 생성 중...
               </>
             ) : (
-              '기안문 생성하기'
+              "기안문 생성하기"
             )}
           </Button>
 
@@ -328,9 +394,9 @@ ${data.contact}
                 <span className="text-sm text-muted-foreground">
                   {stats.charCount}자 / {stats.byteCount}바이트
                 </span>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   onClick={handleCopyToClipboard}
                   className="gap-2"
                 >
