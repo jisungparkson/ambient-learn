@@ -1,1 +1,1 @@
-🔧 개발환경에서 로컬 Supabase 연결 설정 추가
+🔧 GiamunGenerator에서 실제 AI 엣지 함수 호출로 변경 (mockData 제거)

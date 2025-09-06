@@ -174,41 +174,17 @@ ${data.contact}
         throw new Error("로그인이 필요합니다.");
       }
 
-      // 임시로 로컬에서 테스트용 데이터 생성
-      const mockData = {
-        success: true,
-        generated_content: {
-          title: formData.title,
-          department: formData.department || "교무부",
-          drafter: formData.drafter || "관리자",
-          date: new Date().toISOString().split("T")[0],
-          purpose: `${formData.documentType} 작성`,
-          background: formData.details,
-          content: formData.details,
-          budget: "해당 없음",
-          schedule: "즉시 시행",
-          expected_effect: "업무 효율성 향상",
-          appendix: "",
-          contact: "교무부 (02-1234-5678)",
-        },
-      };
-
-      // 실제 Edge Function 호출 (주석 처리)
-      /*
+      // 실제 Edge Function 호출
       const { data, error } = await supabase.functions.invoke('generate-document', {
         body: {
           documentType: formData.documentType,
           title: formData.title,
-          content: formData.details
+          content: formData.details,
         },
         headers: {
           Authorization: `Bearer ${session.access_token}`,
         },
       });
-      */
-
-      const data = mockData;
-      const error = null;
 
       if (error) {
         throw new Error(error.message);
